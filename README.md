@@ -47,13 +47,16 @@ The ratio grows with n — consistent with O(n²) vs O(n log n). Rand pivot and 
 
 ## Theoretical Reference
 
-| n     | Det ~ n(n−1)/2 | Rand/Shuffle ~ 2n·log(n) |
-|------:|---------------:|--------------------------:|
-|   100 |          4,950 |                       921 |
-|   500 |        124,750 |                     6,215 |
-| 1,000 |        499,500 |                    13,816 |
-| 2,000 |      1,999,000 |                    30,404 |
-| 5,000 |     12,497,500 |                    85,172 |
+**Theorem 1.1** *(R. Motwani and P. Raghavan, "Randomized Algorithms", Cambridge University Press, 1995, p. 6)*:
+The expected number of comparisons in RandQS is **at most 2nHₙ**, where Hₙ = 1 + 1/2 + ⋯ + 1/n ~ ln(n) + Θ(1).
+
+| n     | Det = n(n−1)/2 | Bound: 2nHₙ | Observed (avg) | Within bound? |
+|------:|---------------:|------------:|---------------:|:-------------:|
+|   100 |          4,950 |       1,037 |          662.0 | ✓ |
+|   500 |        124,750 |       6,793 |        4,775.4 | ✓ |
+| 1,000 |        499,500 |      14,971 |       10,848.3 | ✓ |
+| 2,000 |      1,999,000 |      32,714 |       24,859.9 | ✓ |
+| 5,000 |     12,497,500 |      90,945 |              — | — |
 
 ## Running
 

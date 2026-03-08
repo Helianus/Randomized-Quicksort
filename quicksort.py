@@ -135,7 +135,7 @@ def run_trial(n, num_rand_trials=10):
 # Main
 # ---------------------------------------------------------------------------
 if __name__ == "__main__":
-    import sys, math
+    import sys
     sys.setrecursionlimit(100_000)
 
     sizes = [100, 500, 1000, 2000, 5000]
@@ -159,9 +159,10 @@ if __name__ == "__main__":
     print(f"Demo hard instance (n={demo_n}): {demo}")
     print(f"  -> Only arr[0]={demo[0]} is misplaced; rest are in order.\n")
 
-    # Theoretical reference
-    print("Theoretical complexity on this input:")
+    # Theoretical reference (Theorem 1.1: expected comparisons <= 2n * H_n)
+    print("Theoretical upper bound (2n * H_n) vs deterministic (n(n-1)/2):")
     for n in sizes:
         det_expected = n * (n - 1) / 2
-        rand_expected = 2 * n * math.log(n)
-        print(f"  n={n:>5}: Det ~ {det_expected:>10,.0f}  |  Rand/Shuffle ~ {rand_expected:>8,.0f}")
+        h_n = sum(1 / k for k in range(1, n + 1))
+        rand_bound = 2 * n * h_n
+        print(f"  n={n:>5}: Det = {det_expected:>10,.0f}  |  Rand bound 2nH_n = {rand_bound:>8,.0f}")
