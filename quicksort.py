@@ -163,5 +163,5 @@ if __name__ == "__main__":
     print("Theoretical complexity on this input:")
     for n in sizes:
         det_expected = n * (n - 1) / 2
-        rand_expected = 2 * n * math.log2(n)
+        rand_expected = 2 * n * math.log(n)
         print(f"  n={n:>5}: Det ~ {det_expected:>10,.0f}  |  Rand/Shuffle ~ {rand_expected:>8,.0f}")

@@ -47,7 +47,7 @@ The ratio grows with n — consistent with O(n²) vs O(n log n). Rand pivot and 
 
 ## Theoretical Reference
 
-| n     | Det ~ n(n−1)/2 | Rand/Shuffle ~ 2n·log₂(n) |
+| n     | Det ~ n(n−1)/2 | Rand/Shuffle ~ 2n·log(n) |
 |------:|---------------:|---------------------------:|
 |   100 |          4,950 |                      1,328 |
 |   500 |        124,750 |                      8,966 |
