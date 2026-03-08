@@ -38,13 +38,36 @@ Measured comparison counts on the hard instance (randomized results averaged ove
 
 | n     | Det comparisons | Rand pivot (avg) | Shuffle+Det (avg) | Det/Rand | Det/Shuffle |
 |------:|----------------:|-----------------:|------------------:|---------:|------------:|
-|   100 |           4,950 |            662.0 |             648.1 |    7.48x |       7.64x |
-|   500 |         124,750 |          4,775.4 |           4,938.7 |   26.12x |      25.26x |
-| 1,000 |         499,500 |         10,848.3 |          11,236.3 |   46.04x |      44.45x |
-| 2,000 |       1,999,000 |         24,859.9 |          24,922.9 |   80.41x |      80.21x |
-| 5,000 |      12,497,500 |         72,021.6 |          69,365.1 |  173.52x |     180.18x |
+|   100 |           4,950 |            625.1 |             647.2 |    7.92x |       7.65x |
+|   500 |         124,750 |          4,670.5 |           4,887.4 |   26.71x |      25.52x |
+| 1,000 |         499,500 |         10,763.9 |          10,700.8 |   46.41x |      46.68x |
+| 2,000 |       1,999,000 |         24,581.3 |          24,659.7 |   81.32x |      81.06x |
+| 5,000 |      12,497,500 |         71,735.5 |          69,785.2 |  174.22x |     179.09x |
 
 The ratio grows with n — consistent with O(n²) vs O(n log n). Rand pivot and Shuffle+Det are statistically indistinguishable, confirming they are equivalent strategies.
+
+### Wall-clock time
+
+```
+Wall-clock time (seconds) on the hard instance:
+     n |      Det (s) |   Rand avg (s) |  Shuffle+Det avg (s)
+-----------------------------------------------------------------
+   100 |     0.001166 |       0.000350 |             0.000308
+   500 |     0.028926 |       0.001767 |             0.002034
+  1000 |     0.098531 |       0.003435 |             0.003412
+  2000 |     0.347963 |       0.008251 |             0.008656
+  5000 |     2.217301 |       0.021234 |             0.022224
+```
+
+| n     | Det (s)   | Rand avg (s) | Shuffle+Det avg (s) |
+|------:|----------:|-------------:|--------------------:|
+|   100 |  0.001166 |     0.000350 |            0.000308 |
+|   500 |  0.028926 |     0.001767 |            0.002034 |
+| 1,000 |  0.098531 |     0.003435 |            0.003412 |
+| 2,000 |  0.347963 |     0.008251 |            0.008656 |
+| 5,000 |  2.217301 |     0.021234 |            0.022224 |
+
+At n=5,000 the deterministic variant takes **~2.2 s** while both randomized strategies finish in **~0.02 s** — roughly **100× faster**.
 
 ## Theoretical Reference
 

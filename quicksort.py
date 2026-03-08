@@ -10,6 +10,7 @@ Metric: number of comparisons made during sorting.
 """
 
 import random
+import time
 
 
 # ---------------------------------------------------------------------------
@@ -114,27 +115,37 @@ def run_trial(n, num_rand_trials=10):
     # --- Deterministic (no shuffle) ---
     arr_det = hard[:]
     c_det = Counter()
+    t0 = time.perf_counter()
     det_quicksort(arr_det, 0, len(arr_det) - 1, c_det)
+    t_det = time.perf_counter() - t0
 
     # --- Randomized pivot ---
     rand_comps = []
+    rand_times = []
     for _ in range(num_rand_trials):
         arr_rand = hard[:]
         c_rand = Counter()
+        t0 = time.perf_counter()
         rand_quicksort(arr_rand, 0, len(arr_rand) - 1, c_rand)
+        rand_times.append(time.perf_counter() - t0)
         rand_comps.append(c_rand.value)
     avg_rand_comp = sum(rand_comps) / num_rand_trials
+    avg_rand_time = sum(rand_times) / num_rand_trials
 
     # --- Shuffle + Deterministic ---
     shuffled_comps = []
+    shuffled_times = []
     for _ in range(num_rand_trials):
         arr_shuffled = hard[:]
         c_shuffled = Counter()
+        t0 = time.perf_counter()
         shuffle_det_quicksort(arr_shuffled, 0, len(arr_shuffled) - 1, c_shuffled)
+        shuffled_times.append(time.perf_counter() - t0)
         shuffled_comps.append(c_shuffled.value)
     avg_shuffled_comp = sum(shuffled_comps) / num_rand_trials
+    avg_shuffled_time = sum(shuffled_times) / num_rand_trials
 
-    return c_det.value, avg_rand_comp, avg_shuffled_comp
+    return c_det.value, avg_rand_comp, avg_shuffled_comp, t_det, avg_rand_time, avg_shuffled_time
 
 
 # ---------------------------------------------------------------------------
@@ -149,12 +160,21 @@ if __name__ == "__main__":
     print("-" * 85)
 
     for n in sizes:
-        det_c, rand_c, shuffled_c = run_trial(n)
+        det_c, rand_c, shuffled_c, t_det, t_rand, t_shuffle = run_trial(n)
         print(f"{n:>6} | {det_c:>12,} | {rand_c:>12,.1f} | {shuffled_c:>18,.1f} | {det_c/rand_c:>10.2f}x | {det_c/shuffled_c:>12.2f}x")
 
     print()
     print("Conclusion: Shuffle+Det and Rand pivot both achieve O(n log n) expected.")
     print("            They are equivalent strategies — randomness in input vs pivot.\n")
+
+    # --- Timing table ---
+    print("Wall-clock time (seconds) on the hard instance:")
+    print(f"{'n':>6} | {'Det (s)':>12} | {'Rand avg (s)':>14} | {'Shuffle+Det avg (s)':>20}")
+    print("-" * 65)
+    for n in sizes:
+        _, _, _, t_det, t_rand, t_shuffle = run_trial(n)
+        print(f"{n:>6} | {t_det:>12.6f} | {t_rand:>14.6f} | {t_shuffle:>20.6f}")
+    print()
 
     # Show the actual instance for a small n
     demo_n = 12
