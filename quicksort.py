@@ -27,11 +27,14 @@ class Counter:
 # Deterministic Quicksort  (pivot = first element)
 # ---------------------------------------------------------------------------
 def det_quicksort(arr, lo, hi, counter):
-    if lo >= hi:
-        return
-    pivot_idx = det_partition(arr, lo, hi, counter)
-    det_quicksort(arr, lo, pivot_idx - 1, counter)
-    det_quicksort(arr, pivot_idx + 1, hi, counter)
+    stack = [(lo, hi)]
+    while stack:
+        lo, hi = stack.pop()
+        if lo >= hi:
+            continue
+        p = det_partition(arr, lo, hi, counter)
+        stack.append((lo, p - 1))
+        stack.append((p + 1, hi))
 
 
 def det_partition(arr, lo, hi, counter):
@@ -50,11 +53,14 @@ def det_partition(arr, lo, hi, counter):
 # Randomized Quicksort  (pivot = random element in [lo, hi])
 # ---------------------------------------------------------------------------
 def rand_quicksort(arr, lo, hi, counter):
-    if lo >= hi:
-        return
-    pivot_idx = rand_partition(arr, lo, hi, counter)
-    rand_quicksort(arr, lo, pivot_idx - 1, counter)
-    rand_quicksort(arr, pivot_idx + 1, hi, counter)
+    stack = [(lo, hi)]
+    while stack:
+        lo, hi = stack.pop()
+        if lo >= hi:
+            continue
+        p = rand_partition(arr, lo, hi, counter)
+        stack.append((lo, p - 1))
+        stack.append((p + 1, hi))
 
 
 def rand_partition(arr, lo, hi, counter):
@@ -135,9 +141,6 @@ def run_trial(n, num_rand_trials=10):
 # Main
 # ---------------------------------------------------------------------------
 if __name__ == "__main__":
-    import sys
-    sys.setrecursionlimit(100_000)
-
     sizes = [100, 500, 1000, 2000, 5000]
 
     print("Hard instance: sorted array with the maximum placed at index 0")

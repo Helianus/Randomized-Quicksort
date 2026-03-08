@@ -42,6 +42,7 @@ Measured comparison counts on the hard instance (randomized results averaged ove
 |   500 |         124,750 |          4,775.4 |           4,938.7 |   26.12x |      25.26x |
 | 1,000 |         499,500 |         10,848.3 |          11,236.3 |   46.04x |      44.45x |
 | 2,000 |       1,999,000 |         24,859.9 |          24,922.9 |   80.41x |      80.21x |
+| 5,000 |      12,497,500 |         72,021.6 |          69,365.1 |  173.52x |     180.18x |
 
 The ratio grows with n — consistent with O(n²) vs O(n log n). Rand pivot and Shuffle+Det are statistically indistinguishable, confirming they are equivalent strategies.
 
@@ -56,7 +57,7 @@ The expected number of comparisons in RandQS is **at most 2nHₙ**, where Hₙ =
 |   500 |        124,750 |       6,793 |        4,775.4 | ✓ |
 | 1,000 |        499,500 |      14,971 |       10,848.3 | ✓ |
 | 2,000 |      1,999,000 |      32,714 |       24,859.9 | ✓ |
-| 5,000 |     12,497,500 |      90,945 |              — | — |
+| 5,000 |     12,497,500 |      90,945 |       72,021.6 | ✓ |
 
 ## Running
 
